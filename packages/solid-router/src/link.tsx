@@ -281,9 +281,9 @@ export function useLinkProps<
   // The click handler
   const handleClick = (e: MouseEvent) => {
     // Check actual element's target attribute as fallback
-    const elementTarget = (
-      e.currentTarget as HTMLAnchorElement | SVGAElement
-    ).getAttribute('target')
+    const elementTarget = (e.currentTarget as HTMLAnchorElement).getAttribute(
+      'target',
+    )
     const effectiveTarget =
       local.target !== undefined ? local.target : elementTarget
 
