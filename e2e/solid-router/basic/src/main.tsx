@@ -5,6 +5,7 @@ import {
   Link,
   Outlet,
   RouterProvider,
+  createLink,
   createRootRoute,
   createRoute,
   createRouter,
@@ -14,6 +15,7 @@ import { TanStackRouterDevtools } from '@tanstack/solid-router-devtools'
 import { NotFoundError, fetchPost, fetchPosts } from './posts'
 import './styles.css'
 import type { ErrorComponentProps } from '@tanstack/solid-router'
+import type * as Solid from 'solid-js'
 
 const rootRoute = createRootRoute({
   component: RootComponent,
@@ -26,6 +28,32 @@ const rootRoute = createRootRoute({
     )
   },
 })
+
+const SvgComponent = ({
+  // If included causes an error:
+  // Cannot set property className of #<SVGElement> which has only a getter
+  class: _className,
+  ...props
+}: Solid.JSX.IntrinsicElements['a']) => {
+  return (
+    <svg width="20" height="20" viewBox="0 0 20 20" role="img">
+      <title id="rectTitle">Link in SVG</title>
+      <a {...props} aria-label="Open posts from SVG">
+        <rect
+          x="0"
+          y="0"
+          width="20"
+          height="20"
+          rx="4"
+          fill="blue"
+          stroke-width="2"
+        />
+      </a>
+    </svg>
+  )
+}
+
+const SvgLink = createLink(SvgComponent)
 
 function RootComponent() {
   return (
@@ -71,7 +99,10 @@ function RootComponent() {
           }}
         >
           This Route Does Not Exist
-        </Link>
+        </Link>{' '}
+        <div class="flex items-center">
+          <SvgLink to="/posts" />
+        </div>
       </div>
       <Outlet />
       <TanStackRouterDevtools position="bottom-right" />
